@@ -1,0 +1,59 @@
+{
+  "version": 2,
+  "projects": {
+    "kilowott-services": {
+      "root": "apps/kilowott-services",
+      "sourceRoot": "apps/kilowott-services/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/kilowott-services",
+            "main": "apps/kilowott-services/src/main.ts",
+            "tsConfig": "apps/kilowott-services/tsconfig.app.json",
+            "assets": ["apps/kilowott-services/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/kilowott-services/src/environments/environment.ts",
+                  "with": "apps/kilowott-services/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "kilowott-services:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/kilowott-services/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/kilowott-services"],
+          "options": {
+            "jestConfig": "apps/kilowott-services/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/express"
+  },
+  "defaultProject": "kilowott-services"
+}
